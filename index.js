@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const Index = require('./routes/index');
+const  aa = require('./routes/aaron');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use('/',Index);
+app.use('/aaron',aa);
 
 
 app.listen(port, () => {
