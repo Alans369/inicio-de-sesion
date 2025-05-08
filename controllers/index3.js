@@ -4,7 +4,7 @@ const { responseFormatFromJSON } = require("@mistralai/mistralai/models/componen
 let miDiccionario = {};
 let textoprincipal="00"
 let textofinal="00"
-  async function main() {
+  async function main(promt) {
 
 
     const ai = new GoogleGenAI({ apiKey: "AIzaSyDHIVg7RzPbHY4s0YYzvb4yswT8nStYg38" });
@@ -22,7 +22,7 @@ let textofinal="00"
         role: 'user',
         parts: [
           {
-            text: `quienes son los finalistas de la champions`,
+            text: promt,
           },
         ],
       },
@@ -124,8 +124,13 @@ let textofinal="00"
   }
   
   const index = async (req, res) => {
+    const preguntaRecibida = req.query.pregunta;
+    console.log(preguntaRecibida)
+
+    var resp = await main(preguntaRecibida)
+
   
-    res.send(await main())
+    res.send(resp)
   };
   
   module.exports = {
