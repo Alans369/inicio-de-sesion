@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const c = require('../controllers/client')
+
 
 // aca pones tu ruta  por ejemplo /api
 router.get('/', (req, res) => {
