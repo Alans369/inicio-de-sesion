@@ -9,7 +9,7 @@ const index3 = async (req, res) => {
   console.log("cookieValor", cookieValor);
   console.log("nombreArchivo", nombreArchivo);
   try {
-    const response = await llm.Createform(nombreArchivo);
+    const response = await llm.Createform(nombreArchivo, cookieValor);
 
     console.log(response);
     res.send(response);
