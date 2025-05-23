@@ -55,7 +55,7 @@ Tu trabajo es:
 3. Ser muy preciso en la clasificación
 
 Ejemplos de solicitudes de formulario:
-- "Crea un formulario sobre matemáticas"
+- "Crea un formulario sobre matemáticas basicas"
 - "Necesito un formulario de encuesta de satisfacción con 10 preguntas"
 - "Haz un formulario de registro con campos obligatorios: nombre, email"
 
@@ -64,6 +64,7 @@ Ejemplos de chat normal:
 - "¿Puedes explicarme qué es la inteligencia artificial?"
 - "Ayúdame con mi tarea de historia  
 
+
 no deberas proporcionar ninguna infromacion adicional solo true o false`
 
 const {GoogleGenAI} = require('@google/genai')
@@ -71,19 +72,27 @@ const {GoogleGenAI} = require('@google/genai')
 const ai = new GoogleGenAI({ apiKey: "AIzaSyDHIVg7RzPbHY4s0YYzvb4yswT8nStYg38" });
 
 async function main(promt) {
-  const response = await ai.models.generateContent({
+  try {
+    const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
     contents: promt,
     config: {
       systemInstruction: instrucion,
     },
-    tools: [
-          {
-            functionDeclarations: [getInspectorFunctionDeclaration()]
-          }]
+   
     
   });
-  console.log(response.text);
+
+
+  return response
+
+    
+  } catch (error) {
+    console.error(error);
+    return "Error al analizar el mensaje"
+    
+  }
+  
   
 }
 
