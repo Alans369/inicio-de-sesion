@@ -61,6 +61,7 @@ class Main {
 
         if (Crearpreguntas) {
           console.log('�� Preguntas creadas con éxito al formulario:', forImid);
+          await chat({ role: 'model', parts: [{text: `e creado un formualrio para el usuario lo puede revisar en drive debo de darle esta informacion`}] })
         }
         else {
                   console.error('�� Error al crear las preguntas al formulario.');

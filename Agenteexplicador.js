@@ -37,3 +37,5 @@ async function main(promt) {
 
 module.exports.chat = main;
 
+module.exports.contents = contents;
+
