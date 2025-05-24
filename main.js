@@ -5,6 +5,7 @@ const {Agenteupdate}=require('./AgentCrearpreguntas')
 const Google = require('./controllers/client')
 require('dotenv').config();
 
+
 const token = process.env.Token;
 
 
@@ -76,7 +77,7 @@ class Main {
 
       if (response.text.trim() == "false") {
         console.log('❌ El mensaje no indica que se solicite crear un formulario.');
-        await chat(mensajeUsuario)
+        await chat({ role: 'user', parts: [{text:mensajeUsuario}] })
       }
 
 
@@ -92,5 +93,29 @@ class Main {
 
 
 const Ia = new Main();
- Ia.procesarMensaje("crea u formualrio de python con 5v preguntas sibre funciones basccas");
+//  Ia.procesarMensaje("crea u formualrio de python con 5v preguntas sibre funciones basccas");
 //  Ia.procesarMensaje("hola, ¿cómo estás?");
+
+
+process.stdin.setEncoding('utf8');
+
+process.stdin.on('readable', () => {
+  let chunk;
+  while ((chunk = process.stdin.read()) !== null) {
+
+     if (chunk.trim() === 'exit') { // Si el usuario escribe 'exit'
+       process.exit(); // Cierra el proceso
+    }
+
+    // Aquí procesas el dato recibido
+     Ia.procesarMensaje(chunk); // Llama a la función con el dato recibido
+ 
+
+    // **Para terminar la entrada (importante), podrías agregar una condición:**
+   
+  }
+});
+
+process.stdin.on('end', () => {
+  process.stdout.write('end');
+});

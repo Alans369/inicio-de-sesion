@@ -113,7 +113,6 @@ async function main(promt) {
     },
   });
 
-    console.log("Respuesta de la  ia para las preguntas:", response.text);
 
     var respuesta = response.text.replace(/^```(?:json)?\s*|\s*```$/g, '');
 
