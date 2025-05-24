@@ -1,6 +1,13 @@
 const {Inspector} = require('./inspectorAgent')
 const {chat} = require('./Agenteexplicador')
 const {AgenteTi}=require('./AgentCrearformulario')
+const {Agenteupdate}=require('./AgentCrearpreguntas')
+const Google = require('./controllers/client')
+require('dotenv').config();
+
+const token = process.env.Token;
+
+
 
 class Main {
   constructor() {
@@ -21,12 +28,28 @@ class Main {
       if (responses.text.trim() == "true") {
         console.log('✅ El mensaje indica que se solicita crear un formulario.');
         console.log('🔍 Análisis del mensaje:');
-        
+
+      
         
         // PASO 2: Generación de formulario
         console.log('\n--- PASO 2: GENERACIÓN DEL FORMULARIO ---');
-        // Aquí iría la lógica para generar el formulario basado en la respuesta del inspector
-        // Por ejemplo, podrías llamar a otro agente o función para crear el formulario
+
+        const titulo = await AgenteTi(mensajeUsuario);
+
+        const arregloJavaScript = JSON.parse(titulo.text);
+
+        // 2. Acceder al primer elemento del arreglo (que es el objeto)
+        const objetoDentroDelArreglo = arregloJavaScript[0];
+
+        // 3. Acceder a la propiedad "title" del objeto
+        const tit = objetoDentroDelArreglo.title;
+
+        console.log(tit); 
+
+        const forImid = await Google.Createform(tit, token);
+
+        console.log('�� Respuesta del formulario:', forImid);
+      
 
       }
       if (responses.text.trim() == "false") {
@@ -35,8 +58,6 @@ class Main {
         
         
       }
-     
-      
       }
       catch (error) {
         console.error('❌ Error al procesar el mensaje:', error);
@@ -49,5 +70,4 @@ class Main {
 
 
 const Ia = new Main();
-// Ia.procesarMensaje("come me llamo yo");
-AgenteTi();
+ Ia.procesarMensaje("crea un fromulario sobre python");

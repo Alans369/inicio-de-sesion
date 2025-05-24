@@ -1,15 +1,15 @@
 
 const {GoogleGenAI,Type} = require('@google/genai');
-const { title } = require('process');
+
 
 const ai = new GoogleGenAI({ apiKey: "AIzaSyDHIVg7RzPbHY4s0YYzvb4yswT8nStYg38" });
 
-async function main() {
+async function main(promt) {
     try {
         const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
     contents:
-      " busca el titulo del tema a este parrafo 'crea un fomulario de matematcas basicas'",
+      ` busca el titulo del tema en este parrafo '${promt}' `,
     config: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -28,7 +28,9 @@ async function main() {
     },
   });
 
-  console.log(response.text);
+  
+
+  return response
         
     } catch (error) {
         console.error(error);
