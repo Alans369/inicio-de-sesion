@@ -22,10 +22,10 @@ class Main {
       
       // PASO 1: Análisis e inspección del mensaje
       console.log('\n--- PASO 1: ANÁLISIS DEL MENSAJE ---');
-      var responses = await Inspector(mensajeUsuario);
-      console.log('🔍 Respuesta del Inspector:', responses.text);
+      var response = await  Inspector(mensajeUsuario);
+      console.log('🔍 Respuesta del Inspector:', response.text);
 
-      if (responses.text.trim() == "true") {
+      if (response.text.trim() == "true") {
         console.log('✅ El mensaje indica que se solicita crear un formulario.');
         console.log('🔍 Análisis del mensaje:');
 
@@ -71,13 +71,15 @@ class Main {
         
       
 
+      // }  
       }
-      if (responses.text.trim() == "false") {
+
+      if (response.text.trim() == "false") {
         console.log('❌ El mensaje no indica que se solicite crear un formulario.');
         await chat(mensajeUsuario)
-        
-        
       }
+
+
       }
       catch (error) {
         console.error('❌ Error al procesar el mensaje:', error);
@@ -90,5 +92,5 @@ class Main {
 
 
 const Ia = new Main();
-//  Ia.procesarMensaje("crea un fromulario sobre c# con 4 preguntas sobre variables y el titulo del formualrio es 'Test C#'");
- Ia.procesarMensaje("hola, ¿cómo estás?");
+ Ia.procesarMensaje("crea u formualrio de python con 5v preguntas sibre funciones basccas");
+//  Ia.procesarMensaje("hola, ¿cómo estás?");

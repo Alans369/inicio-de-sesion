@@ -13,8 +13,19 @@ el formato debe de empezar desde createItem con la siguiente estructura:
  solo responde con este formato y no agregues nada mas, no respondas con explicaciones ni nada, solo responde con el formato de la API de Google Forms, si el usuario pide un formulario de opción única debes generar el siguiente formato:
  no debes de poner json en el item, solo responde con el texto de la pregunta y las opciones en el formato de la API de Google Forms y la respuesta debe de estar en comillas simples ''.
  la propiedad de index es el numero de preguntas qu el usaurio pida en base a esto se incrementara de uno en uno 
+ lo primero que debes hacer es asegurarte de que el formulario sea un cuestionario, para esto debes generar el siguiente formato:
 
   [
+  {
+      updateSettings: {
+        settings: {
+          quizSettings: {
+            isQuiz: true,
+          },
+        },
+        updateMask: 'quizSettings.isQuiz', 
+      },
+    },
  
   {
       createItem: {
@@ -96,6 +107,7 @@ async function main(promt) {
     const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
     contents: promt,
+    responseMimeType: 'text/plain',
     config: {
       systemInstruction:instruciones,
     },
@@ -116,7 +128,7 @@ async function main(promt) {
     
   }
 }
-main()
+
 
 
 module.exports.Agenteupdate = main;

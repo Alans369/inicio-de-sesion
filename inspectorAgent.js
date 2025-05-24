@@ -22,46 +22,22 @@ Ejemplos de chat normal:
 
 no deberas proporcionar ninguna infromacion adicional solo true o false`
 
-const contents = [
-  {
-    role: 'user',
-    parts: [{ text: 'hoa' }]
-  }
-];
-
-
-
 
 const ai = new GoogleGenAI({ apiKey: "AIzaSyDHIVg7RzPbHY4s0YYzvb4yswT8nStYg38" });
 
 async function main(promt) {
-  contents.push({ role: 'user', parts: [{text:promt}] })
+  const response = await ai.models.generateContent({
+    model: "gemini-2.0-flash",
+    contents: promt,
+    config: {
+      systemInstruction: instrucion,
+    },
+  });
+  console.log(response.text);
 
-  console.log('Prompto:', promt);
-  try {
-
-     const response = await ai.models.generateContent({
-        model: 'gemini-2.0-flash',
-        contents: contents
-        
-        });
-        console.log('Respuesta del modelo:', response.text);
-  
-  
-
- 
-
-    
-
-    
-  } catch (error) {
-    console.error(error);
-    return "Error al analizar el mensaje"
-    
-  }
-  
-  
+  return response
 }
+
 
 
 

@@ -4,15 +4,17 @@ const {GoogleGenAI} = require('@google/genai')
 const ai = new GoogleGenAI({ apiKey: "AIzaSyDHIVg7RzPbHY4s0YYzvb4yswT8nStYg38" });
 
 
-const contents = [
+
+
+async function main(promt) {
+
+  const contents = [
   {
     role: 'user',
     parts: [{ text: 'hola me llamo alan' }]
   }
 ];
 
-
-async function main(promt) {
     contents.push({ role: 'user', parts: [{text:promt}] })
 
     try {
