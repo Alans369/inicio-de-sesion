@@ -46,7 +46,7 @@ class Main {
 
         console.log(tit); 
 
-        const forImid = await Google.Createform(tit, token);
+        const forImid = await Google.Createform(tit,token);
 
         console.log('�� Respuesta del formulario:', forImid);
       
