@@ -15,18 +15,7 @@ el formato debe de empezar desde createItem con la siguiente estructura:
  la propiedad de index es el numero de preguntas qu el usaurio pida en base a esto se incrementara de uno en uno 
 
   [
- // 1. Asegurarse de que el formulario sea un cuestionario
-    {
-      updateSettings: {
-        settings: {
-          quizSettings: {
-            isQuiz: true,
-          },
-        },
-        updateMask: 'quizSettings.isQuiz', // Especifica qué parte de la configuración actualizar
-      },
-    },
-    // 2. Crear la pregunta de opción múltiple calificada
+ 
   {
       createItem: {
         item: {
