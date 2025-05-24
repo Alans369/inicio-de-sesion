@@ -11,10 +11,24 @@ aca esta un ejemplo de como se generan los formularios para la API de Google For
 
 el formato debe de empezar desde createItem con la siguiente estructura:
  solo responde con este formato y no agregues nada mas, no respondas con explicaciones ni nada, solo responde con el formato de la API de Google Forms, si el usuario pide un formulario de opción única debes generar el siguiente formato:
- no debes de poner json en el item, solo responde con el texto de la pregunta y las opciones en el formato de la API de Google Forms.
+ no debes de poner json en el item, solo responde con el texto de la pregunta y las opciones en el formato de la API de Google Forms y la respuesta debe de estar en comillas simples ''.
+ la propiedad de index es el numero de preguntas qu el usaurio pida en base a esto se incrementara de uno en uno 
 
-
- createItem: {
+  [
+ // 1. Asegurarse de que el formulario sea un cuestionario
+    {
+      updateSettings: {
+        settings: {
+          quizSettings: {
+            isQuiz: true,
+          },
+        },
+        updateMask: 'quizSettings.isQuiz', // Especifica qué parte de la configuración actualizar
+      },
+    },
+    // 2. Crear la pregunta de opción múltiple calificada
+  {
+      createItem: {
         item: {
           title: '¿Cuál es la capital de Francia?',
           questionItem: {
@@ -48,11 +62,7 @@ el formato debe de empezar desde createItem con la siguiente estructura:
           index: 0, // Insertar al principio del formulario (o ajusta según necesites)
         },
       },
- 
-    solo generas respuestas basdas en este ejemplo de  formato o este otro dependera del tipo  de preguntas que el usuario te pida aser  
-     Ejemplo de pregunta de opción múltiple
-    donde el usuario puede seleccionar varias respuestas correctas
-
+    },  solo generas respuestas basdas en este ejemplo de  formato o este otro dependera del tipo  de preguntas que el usuario te pida aser  {
       createItem: {
         item: {
           title: '¿Cuáles de los siguientes son lenguajes de programación? (Selección Múltiple)',
@@ -85,6 +95,10 @@ el formato debe de empezar desde createItem con la siguiente estructura:
           index: 1,
         },
       },
+    },
+]
+      
+
     
 `
 
@@ -92,20 +106,28 @@ async function main(promt) {
   try {
     const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
-    contents: "crea un formulario de preguntas de opción múltiple con 5 preguntas sobre python basico",
+    contents: promt,
     config: {
       systemInstruction:instruciones,
     },
   });
 
-  console.log(response.candidates[0].content.parts[0].text);
+    console.log("Respuesta de la  ia para las preguntas:", response.text);
+
+    var respuesta = response.text.replace(/^```(?:json)?\s*|\s*```$/g, '');
+
+    const data = JSON.parse(respuesta);  
+    console.log("JSON parseado exitosamente:", data);
+
+    return data;
+
   } catch (error) {
     console.error(error);
     return "Error al analizar el mensaje"
     
   }
 }
-
+main()
 
 
 module.exports.Agenteupdate = main;

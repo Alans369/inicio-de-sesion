@@ -48,7 +48,27 @@ class Main {
 
         const forImid = await Google.Createform(tit,token);
 
-        console.log('�� Respuesta del formulario:', forImid);
+        console.log('�� Respuesta  del id formulario:', forImid);
+
+        // PASO 3: Creación de preguntas al formulario
+        console.log('\n--- PASO 3: CREACIÓN DE PREGUNTAS AL FORMULARIO ---');
+
+        var body = await Agenteupdate(mensajeUsuario);
+
+
+        const Crearpreguntas = await Google.Createbodyform(token,body,forImid);
+
+        if (Crearpreguntas) {
+          console.log('�� Preguntas creadas con éxito al formulario:', forImid);
+        }
+        else {
+                  console.error('�� Error al crear las preguntas al formulario.');
+            } 
+
+
+
+
+        
       
 
       }
@@ -70,4 +90,5 @@ class Main {
 
 
 const Ia = new Main();
- Ia.procesarMensaje("crea un fromulario sobre python");
+//  Ia.procesarMensaje("crea un fromulario sobre c# con 4 preguntas sobre variables y el titulo del formualrio es 'Test C#'");
+ Ia.procesarMensaje("hola, ¿cómo estás?");
