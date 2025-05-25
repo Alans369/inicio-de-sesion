@@ -1,5 +1,5 @@
 const {Inspector} = require('./inspectorAgent')
-const {chat} = require('./Agenteexplicador')
+const {chat,contents} = require('./Agenteexplicador')
 const {AgenteTi}=require('./AgentCrearformulario')
 const {Agenteupdate}=require('./AgentCrearpreguntas')
 const Google = require('./controllers/client')
@@ -47,9 +47,12 @@ class Main {
 
         console.log(tit); 
 
-        const forImid = await Google.Createform(tit,token);
+        const formulario = await Google.Createform(tit,token);
 
-        console.log('�� Respuesta  del id formulario:', forImid);
+        console.log('�� Respuesta  del id formulario:',formulario[0]);
+
+        contents.push({ role: 'model', parts: [{text: `El formulario ${tit} ha sido creado con éxito lo e guardado en el drive del usaurio esta es la url del formualrio ${formulario[1]}`}] })
+
 
         // PASO 3: Creación de preguntas al formulario
         console.log('\n--- PASO 3: CREACIÓN DE PREGUNTAS AL FORMULARIO ---');
@@ -57,11 +60,13 @@ class Main {
         var body = await Agenteupdate(mensajeUsuario);
 
 
-        const Crearpreguntas = await Google.Createbodyform(token,body,forImid);
+        const Crearpreguntas = await Google.Createbodyform(token,body,formulario[0]);
 
         if (Crearpreguntas) {
-          console.log('�� Preguntas creadas con éxito al formulario:', forImid);
-          await chat({ role: 'model', parts: [{text: `e creado un formualrio para el usuario lo puede revisar en drive debo de darle esta informacion`}] })
+          console.log('�� Preguntas creadas con éxito al formulario:', formulario[0]);
+          contents.push({ role: 'model', parts: [{text: `Las preguntas al formulario ${tit} han sido creadas con éxito`}] })
+
+          await chat({ role: 'user', parts: [{text: `respondeme con lo que te pedi`}] })
         }
         else {
                   console.error('�� Error al crear las preguntas al formulario.');

@@ -6,15 +6,10 @@ const ai = new GoogleGenAI({ apiKey: "AIzaSyDHIVg7RzPbHY4s0YYzvb4yswT8nStYg38" }
 
 const instruciones= `
 
-Eres un agente de que se necraga de generar formatos de formularios dependiendo de lo que el usuario pida, si el usuario pide un formulario de preguntas de opción múltiple o de opción única, debes generar el formato correspondiente para la API de Google Forms.
-aca esta un ejemplo de como se generan los formularios para la API de Google Forms, debes seguir este formato y no cambiarlo, solo debes cambiar las preguntas y respuestas dependiendo de lo que el usuario pida, si el usuario pide un formulario de opción única debes generar el siguiente formato:
+eres un agente de  que crea formatos basados en lo que el usaurio pida y crea preguntas de tipo quiz en base a las instrucciones que el usuario te da
+solo puedes responder en formato JSON y no debes de dar explicaciones ni nada mas solo el JSON que te pido
 
-el formato debe de empezar desde createItem con la siguiente estructura:
- solo responde con este formato y no agregues nada mas, no respondas con explicaciones ni nada, solo responde con el formato de la API de Google Forms, si el usuario pide un formulario de opción única debes generar el siguiente formato:
- no debes de poner json en el item, solo responde con el texto de la pregunta y las opciones en el formato de la API de Google Forms y la respuesta debe de estar en comillas simples ''.
- la propiedad de index es el numero de preguntas qu el usaurio pida en base a esto se incrementara de uno en uno 
- lo primero que debes hacer es asegurarte de que el formulario sea un cuestionario, para esto debes generar el siguiente formato:
-
+Produce JSON matching this specification:
   [
   {
       updateSettings: {

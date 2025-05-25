@@ -25,6 +25,8 @@ async function main(promt) {
         
         });
         console.log('Respuesta del modelo:', response.text);
+
+        console.log('historial de conversacion:', contents);
         
     } catch (error) {
         console.error(error);
