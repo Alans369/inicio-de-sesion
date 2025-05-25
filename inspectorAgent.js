@@ -17,7 +17,11 @@ Ejemplos de solicitudes de formulario:
 Ejemplos de chat normal:
 - "Hola, ¿cómo estás?"
 - "¿Puedes explicarme qué es la inteligencia artificial?"
-- "Ayúdame con mi tarea de historia  
+- "Ayúdame con mi tarea de historia 
+- me podrías crear un formulario de registro para un evento?" 
+
+si solo te dicen que le crees un formulario sin mas detalles no es una solicitud valida de formulario
+por lo que devuelves false 
 
 
 no deberas proporcionar ninguna infromacion adicional solo true o false`

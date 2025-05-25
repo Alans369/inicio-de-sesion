@@ -51,7 +51,7 @@ class Main {
 
         console.log('�� Respuesta  del id formulario:',formulario[0]);
 
-        history.push({ role: 'model', parts: [{text: `El formulario ${tit} ha sido creado con éxito lo e guardado en el drive del usaurio esta es la url del formualrio ${formulario[1]}`}] })
+        history.push({ role: 'model', parts: [{text: `El formulario ${tit} lo e creado con exito y lo guarde en tu drive aca esta link para que le eches un vistaso  ${formulario[1]}`}] })
 
 
         // PASO 3: Creación de preguntas al formulario
