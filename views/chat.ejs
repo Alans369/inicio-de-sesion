@@ -74,6 +74,27 @@
     <!-- Scripts quitalo si queres -->
 
     <script>
+
+        function sendChatMessage(message) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `/chat2?mensaje=${encodeURIComponent(message)}`, true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        resolve(xhr.responseText);
+                    } else {
+                        reject(Error(xhr.statusText));
+                    }
+                };
+                xhr.onerror = function() {
+                    reject(Error('Error de red'));
+                };
+                xhr.send();
+            });
+}
+
+
+
         let chatHistory = [
             { id: 1, title: "Conversación General", preview: "¿Cómo puedo ayudarte hoy?", active: true },
             { id: 2, title: "Programación Web", preview: "Ayuda con HTML y CSS..." },
@@ -93,11 +114,24 @@
                 // Añadir mensaje del usuario
                 addMessage('user', message);
 
-                console.log("Mensaje que el usaurio escribio:", message);
+               
                 input.value = '';
+
+                // Enviar mensaje al servidor y obtener respuesta
+                sendChatMessage(message)
+                    .then(response => {
+                        // Añadir respuesta del servidor (IA)
+                        addMessage('ai', response);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        addMessage('ai', 'Lo siento, hubo un error al procesar tu mensaje.');
+                    });
+
+
                 
 
-                addMessage('ai', `<a href="google.com"> web</a>`);
+                // addMessage('ai', `<a href="google.com"> web</a>`);
             }
         }
 

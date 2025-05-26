@@ -83,7 +83,7 @@ class Main {
 
       if (response.text.trim() == "false") {
         console.log('❌ El mensaje no indica que se solicite crear un formulario.');
-        await chat(mensajeUsuario)
+        return await chat(mensajeUsuario)
       }
 
 
@@ -99,29 +99,32 @@ class Main {
 
 
 const Ia = new Main();
+
+
+module.exports.ia = Ia;
 //  Ia.procesarMensaje("crea u formualrio de python con 5v preguntas sibre funciones basccas");
 //  Ia.procesarMensaje("hola, ¿cómo estás?");
 
 
-process.stdin.setEncoding('utf8');
+// process.stdin.setEncoding('utf8');
 
-process.stdin.on('readable', () => {
-  let chunk;
-  while ((chunk = process.stdin.read()) !== null) {
+// process.stdin.on('readable', () => {
+//   let chunk;
+//   while ((chunk = process.stdin.read()) !== null) {
 
-     if (chunk.trim() === 'exit') { // Si el usuario escribe 'exit'
-       process.exit(); // Cierra el proceso
-    }
+//      if (chunk.trim() === 'exit') { // Si el usuario escribe 'exit'
+//        process.exit(); // Cierra el proceso
+//     }
 
-    // Aquí procesas el dato recibido
-     Ia.procesarMensaje(chunk); // Llama a la función con el dato recibido
+//     // Aquí procesas el dato recibido
+//      Ia.procesarMensaje(chunk); // Llama a la función con el dato recibido
  
 
-    // **Para terminar la entrada (importante), podrías agregar una condición:**
+//     // **Para terminar la entrada (importante), podrías agregar una condición:**
    
-  }
-});
+//   }
+// });
 
-process.stdin.on('end', () => {
-  process.stdout.write('end');
-});
+// process.stdin.on('end', () => {
+//   process.stdout.write('end');
+// });

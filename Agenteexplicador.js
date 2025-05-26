@@ -44,8 +44,12 @@ async function main(promt) {
 
     memori.push({ role: 'model', parts: [{ text: contexto }] });
 
+    return `${response.text} sources: ${contexto}`  
+
    }else {
      console.log(response.text);
+
+     return response.text;
 
 
    }

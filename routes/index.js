@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/index')
 
+const{ia}=require('../main')
+
+
+
 
 
 router.get('/',(req,res)=>{
@@ -11,6 +15,13 @@ router.get('/',(req,res)=>{
 router.get('/chat',(req,res)=>{
     res.render('chat')
 });
+
+router.get('/chat2',async (req,res)=>{
+    var response =await  ia.procesarMensaje(req.query.mensaje)
+
+    res.send(response)
+});
+
 
 router.get('/form',(req,res)=>{
     res.render('form')
