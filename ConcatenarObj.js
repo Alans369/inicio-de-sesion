@@ -19,14 +19,24 @@ function concatenarSegmentos(segmentosArray) {
 function source(sources){
   var text = "";
 
+  var fuente = [];
+
   sources.forEach((source, index) => {
 
-    text += `${index + 1}. ${source.web.title}\n`;
+    // text += `${index + 1}. ${source.web.title}\n`;
+
+
+  const infromation = {
+    id: index + 1,
+    titulo:source.web.title, // Genera A, B, C, etc.
+    url: source.web.uri // Un precio que varía
+  };
+  fuente.push(infromation);
 
         
     });
 
-    return text;
+    return fuente;
 }
 
 

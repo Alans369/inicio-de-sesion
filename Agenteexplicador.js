@@ -36,15 +36,19 @@ async function main(promt) {
     console.log(response.text);
     // console.log(concatenar(response.candidates[0].groundingMetadata.groundingSupports))
 
+    var texto = {texto: response.text }
+
     console.log('sources')
 
     var contexto = formatsources(response.candidates[0].groundingMetadata.groundingChunks)
 
     console.log(contexto)
 
+    contexto.unshift(texto)
+
     memori.push({ role: 'model', parts: [{ text: contexto }] });
 
-    return `${response.text} sources: ${contexto}`  
+    return contexto  
 
    }else {
      console.log(response.text);
