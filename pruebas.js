@@ -272,25 +272,15 @@
 //   console.log(`   URL: ${source.web.uri.substring(0, 80)}...`);
 // });
 
-const segments = [
-  {
-    segment: {
-      endIndex: 121,
-      text: 'Los finalistas que jugarán la final de la Champions League 2025 son el **Paris Saint-Germain** y el **Inter de Milán**.'
-    },
-    groundingChunkIndices: [0, 1, 2],
-    confidenceScores: [0.8768377, 0.7454212, 0.7312186]
-  },
-  {
-    segment: {
-      startIndex: 122,
-      endIndex: 207,
-      text: 'El partido se jugará el 31 de mayo de 2025 en el Allianz Arena de Múnich, Alemania.'
-    },
-    groundingChunkIndices: [2],
-    confidenceScores: [0.9550797]
-  }
-];
+
+function source(sources){
+  sources.forEach((source, index) => {
+  
+
+  return `${index + 1}. ${source.web.title}`;
+});
+}
+
 
 // ===== FUNCIÓN PARA FORMATO: TEXTO + [ÍNDICES] POR CADA SEGMENTO =====
 function concatenarSegmentos(segmentosArray) {

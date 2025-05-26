@@ -16,5 +16,19 @@ function concatenarSegmentos(segmentosArray) {
   }).join('\n');
 }
 
+function source(sources){
+  var text = "";
 
-module.exports.Text = concatenarSegmentos;
+  sources.forEach((source, index) => {
+
+    text += `${index + 1}. ${source.web.title}\n`;
+
+        
+    });
+
+    return text;
+}
+
+
+module.exports.concatenar = concatenarSegmentos;
+module.exports.formatsources = source;

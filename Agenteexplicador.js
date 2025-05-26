@@ -1,68 +1,65 @@
 
 const {GoogleGenAI} = require('@google/genai')
+var {formatsources} =require('./ConcatenarObj')
 
 const ai = new GoogleGenAI({ apiKey: "AIzaSyDHIVg7RzPbHY4s0YYzvb4yswT8nStYg38" });
 
-//  const contents = [
-//   {
-//     role: 'user',
-//     parts: [{ text: 'hola me llamo alan' }]
-//   }
-// ];
-
-var  history = [
+var memori = [
       {
         role: "user",
-        parts: [{ text: "Hello" }],
+        parts: [{ text: "hola me llamo alan" }],
       },
       {
         role: "model",
         parts: [{ text: "Great to meet you. What would you like to know?" }],
-      }
+      },
     ]
 
-
-
 async function main(promt) {
+  const chat = await ai.chats.create({
+    model: "gemini-2.0-flash",
+    history: memori,
+    config: {
+      tools: [{googleSearch: {}}],
+    },
+  });
 
-    // contents.push({ role: 'user', parts: [{text:promt}] })
+  const response = await chat.sendMessage({
+    message: promt,
+  });
+  memori.push({ role: 'user', parts: [{ text: promt }] });
+  
 
-    // contents.push(promt)
 
-    try {
-        const chat = ai.chats.create({
-        model: 'gemini-2.0-flash',
-        history: history,
-        });
 
-        const response1 = await chat.sendMessage({
-          message:promt,
-        });
-        console.log("Chat response :", response1.text);
-        
-      
-        console.log("--- Imprimiendo valores de la variable 'ase' ---");
+   if (response.candidates[0].groundingMetadata.groundingSupports !== undefined) {
+    console.log(response.text);
+    // console.log(concatenar(response.candidates[0].groundingMetadata.groundingSupports))
 
-        history.forEach(item => {
-            console.log(`Role: ${item.role}`);
-            item.parts.forEach(part => {
-                if (part.text) { // Se puede usar 'if (part.text)' o 'if (typeof part.text !== 'undefined')'
-                    console.log(`  Text: ${part.text}`);
-                }
-            });
-            console.log("-".repeat(20)); // Separador para mejor legibilidad
-        });
-        
-    } catch (error) {
-        console.error(error);
-        return "Error al analizar el mensaje"
-        
-    }
- 
+    console.log('sources')
 
+    var contexto = formatsources(response.candidates[0].groundingMetadata.groundingChunks)
+
+    console.log(contexto)
+
+    memori.push({ role: 'model', parts: [{ text: contexto }] });
+
+   }else {
+     console.log(response.text);
+
+
+   }
+
+  //  console.log(memori)
+
+  
+
+
+  // To get grounding metadata as web content.
+  
 }
 
 module.exports.chat = main;
 
-module.exports.history = history;
+module.exports.history = memori;
 

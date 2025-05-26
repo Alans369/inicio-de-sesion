@@ -1,25 +1,61 @@
 var  {GoogleGenAI} = require('@google/genai');
+var {concatenar,formatsources} =require('./ConcatenarObj')
 
 
 const ai = new GoogleGenAI({ apiKey: "AIzaSyDHIVg7RzPbHY4s0YYzvb4yswT8nStYg38" });
 
-async function main() {
-  const response = await ai.models.generateContent({
+
+var memori = [
+      {
+        role: "user",
+        parts: [{ text: "hola me llamo alan" }],
+      },
+      {
+        role: "model",
+        parts: [{ text: "Great to meet you. What would you like to know?" }],
+      },
+    ]
+
+async function main(promt) {
+  const chat = await ai.chats.create({
     model: "gemini-2.0-flash",
-    contents: [
-        "quienes son lo finanalistas que jugaran la final de la champions 2025?",
-    ],
+    history: memori,
     config: {
       tools: [{googleSearch: {}}],
     },
   });
 
-  console.log(response.text);
-
-  console.log(response.candidates[0].groundingMetadata.groundingChunks);
+  const response = await chat.sendMessage({
+    message: promt,
+  });
+  memori.push({ role: 'user', parts: [{ text: promt }] });
   
 
-  console.log(response.candidates[0].groundingMetadata.groundingSupports);
+
+
+   if (response.candidates[0].groundingMetadata.groundingSupports !== undefined) {
+    console.log(response.text);
+    // console.log(concatenar(response.candidates[0].groundingMetadata.groundingSupports))
+
+    console.log('sources')
+
+    var contexto = formatsources(response.candidates[0].groundingMetadata.groundingChunks)
+
+    console.log(contexto)
+
+    memori.push({ role: 'model', parts: [{ text: contexto }] });
+
+   }else {
+     console.log(response.text);
+
+
+   }
+
+   console.log(memori)
+
+   
+
+  
 
 
   // To get grounding metadata as web content.
@@ -28,4 +64,26 @@ async function main() {
 
 
 
- main();
+
+// process.stdin.setEncoding('utf8');
+
+//  process.stdin.on('readable', () => {
+//   let chunk;
+//   while ((chunk = process.stdin.read()) !== null) {
+
+//      if (chunk.trim() === 'exit') { // Si el usuario escribe 'exit'
+//        process.exit(); // Cierra el proceso
+//     }
+
+//     // Aquí procesas el dato recibido
+//      main(chunk); // Llama a la función con el dato recibido
+ 
+
+//     // **Para terminar la entrada (importante), podrías agregar una condición:**
+   
+//   }
+// });
+
+// process.stdin.on('end', () => {
+//   process.stdout.write('end');
+// });
