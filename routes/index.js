@@ -8,6 +8,10 @@ router.get('/',(req,res)=>{
     res.send("bienvenido")
 });
 
+router.get('/chat',(req,res)=>{
+    res.render('chat')
+});
+
 router.get('/form',(req,res)=>{
     res.render('form')
 });

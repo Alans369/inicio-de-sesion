@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/chat.css">
+    <title>AI Assistant</title>
+   
+</head>
+<body>
+    <div class="container">
+        <!-- Barra lateral -->
+        <div class="sidebar">
+            <div class="logo">AI Assistant</div>
+            
+            <button class="new-chat-btn" onclick="newChat()">
+                ✨ Nuevo Chat
+            </button>
+            
+            <div class="chat-history">
+                <div class="history-title">Historial</div>
+                <div id="chatHistory">
+                    <div class="chat-item active">
+                        <div class="chat-title">Conversación General</div>
+                        <div class="chat-preview">¿Cómo puedo ayudarte hoy?</div>
+                    </div>
+                    <div class="chat-item">
+                        <div class="chat-title">Programación Web</div>
+                        <div class="chat-preview">Ayuda con HTML y CSS...</div>
+                    </div>
+                    <div class="chat-item">
+                        <div class="chat-title">Recetas de Cocina</div>
+                        <div class="chat-preview">Ideas para cenas saludables...</div>
+                    </div>
+                    <div class="chat-item">
+                        <div class="chat-title">Consejos de Estudio</div>
+                        <div class="chat-preview">Técnicas de memorización...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Área principal del chat -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="chat-title-main">Chat con IA</div>
+                <div class="chat-subtitle">Tu asistente inteligente está listo para ayudarte</div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai">
+                    ¡Hola! 👋 Soy tu asistente de IA. ¿En qué puedo ayudarte hoy? Puedo responder preguntas, ayudarte con tareas, generar contenido creativo y mucho más.
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <div class="input-container">
+                    <textarea 
+                        class="chat-input" 
+                        id="messageInput"
+                        placeholder="Escribe tu mensaje aquí..." 
+                        rows="1"
+                        onkeypress="handleKeyPress(event)"
+                    ></textarea>
+                    <button class="send-btn" onclick="sendMessage()">
+                        Enviar 🚀
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Scripts quitalo si queres -->
+
+    <script>
+        let chatHistory = [
+            { id: 1, title: "Conversación General", preview: "¿Cómo puedo ayudarte hoy?", active: true },
+            { id: 2, title: "Programación Web", preview: "Ayuda con HTML y CSS..." },
+            { id: 3, title: "Recetas de Cocina", preview: "Ideas para cenas saludables..." },
+            { id: 4, title: "Consejos de Estudio", preview: "Técnicas de memorización..." }
+        ];
+
+        let currentMessages = [
+            { type: 'ai', content: '¡Hola! 👋 Soy tu asistente de IA. ¿En qué puedo ayudarte hoy? Puedo responder preguntas, ayudarte con tareas, generar contenido creativo y mucho más.' }
+        ];
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                // Añadir mensaje del usuario
+                addMessage('user', message);
+
+                console.log("Mensaje que el usaurio escribio:", message);
+                input.value = '';
+                
+
+                addMessage('ai', `<a href="google.com"> web</a>`);
+            }
+        }
+
+        function addMessage(type, content) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = content;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Actualizar el chat actual en el historial
+            currentMessages.push({ type, content });
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function newChat() {
+            // Limpiar mensajes actuales
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.innerHTML = '<div class="message ai">¡Hola! 👋 Soy tu asistente de IA. ¿En qué puedo ayudarte hoy?</div>';
+            
+            // Crear nuevo chat en el historial
+            const newChatId = chatHistory.length + 1;
+            const newChat = {
+                id: newChatId,
+                title: `Nueva Conversación ${newChatId}`,
+                preview: "Chat recién creado...",
+                active: true
+            };
+            
+            // Desactivar otros chats
+            chatHistory.forEach(chat => chat.active = false);
+            
+            // Añadir nuevo chat al principio del historial
+            chatHistory.unshift(newChat);
+            
+            // Actualizar la interfaz del historial
+            updateChatHistory();
+            
+            // Resetear mensajes actuales
+            currentMessages = [
+                { type: 'ai', content: '¡Hola! 👋 Soy tu asistente de IA. ¿En qué puedo ayudarte hoy?' }
+            ];
+        }
+
+        function updateChatHistory() {
+            const historyContainer = document.getElementById('chatHistory');
+            historyContainer.innerHTML = '';
+            
+            chatHistory.forEach(chat => {
+                const chatItem = document.createElement('div');
+                chatItem.className = `chat-item ${chat.active ? 'active' : ''}`;
+                chatItem.innerHTML = `
+                    <div class="chat-title">${chat.title}</div>
+                    <div class="chat-preview">${chat.preview}</div>
+                `;
+                chatItem.onclick = () => selectChat(chat.id);
+                historyContainer.appendChild(chatItem);
+            });
+        }
+
+        function selectChat(chatId) {
+            // Actualizar estado activo
+            chatHistory.forEach(chat => {
+                chat.active = chat.id === chatId;
+            });
+            
+            // Actualizar interfaz
+            updateChatHistory();
+            
+            // Aquí podrías cargar los mensajes específicos de ese chat
+            // Por simplicidad, solo mostramos el mensaje de bienvenida
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.innerHTML = '<div class="message ai">Has seleccionado un chat del historial. ¿En qué puedo ayudarte?</div>';
+        }
+
+        // Auto-resize del textarea
+        document.getElementById('messageInput').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Barra lateral */
+        .sidebar {
+            width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo::before {
+            content: "🤖";
+            margin-right: 10px;
+            font-size: 28px;
+        }
+
+        .new-chat-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .new-chat-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .chat-history {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .history-title {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .chat-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .chat-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
+        }
+
+        .chat-item.active {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .chat-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .chat-preview {
+            font-size: 12px;
+            opacity: 0.7;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Área principal del chat */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .chat-header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .chat-title-main {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .chat-subtitle {
+            opacity: 0.7;
+            font-size: 14px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .message.user {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.ai {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            backdrop-filter: blur(10px);
+        }
+
+        .chat-input-area {
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px 20px;
+            color: white;
+            font-size: 16px;
+            resize: none;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .chat-input:focus {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .send-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 12px;
+            padding: 15px 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 250px;
+            }
+            
+            .chat-messages {
+                padding: 20px;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</body>
+</html>
