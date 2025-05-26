@@ -1,6 +1,8 @@
 
 const {GoogleGenAI} = require('@google/genai');
 
+const {context}=require('./AgenteformExlicar')
+
 
 const ai = new GoogleGenAI({ apiKey: "AIzaSyDHIVg7RzPbHY4s0YYzvb4yswT8nStYg38" });
 
@@ -108,11 +110,14 @@ async function main(promt) {
     },
   });
 
+    await context(response.text);
 
     var respuesta = response.text.replace(/^```(?:json)?\s*|\s*```$/g, '');
 
     const data = JSON.parse(respuesta);  
     console.log("JSON parseado exitosamente:", data);
+
+    
 
     return data;
 
