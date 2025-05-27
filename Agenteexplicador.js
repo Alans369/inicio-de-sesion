@@ -16,7 +16,9 @@ var memori = [
     ]
 
 async function main(promt) {
-  const chat = await ai.chats.create({
+
+  try{
+      const chat = await ai.chats.create({
     model: "gemini-2.0-flash",
     history: memori,
     config: {
@@ -28,17 +30,35 @@ async function main(promt) {
     message: promt,
   });
 
-
-  
-
   console.log(response.text);
+
+  if (response.candidates[0].groundingMetadata.groundingChunks!== undefined) {
+    
+   
+      return [response.text,response.candidates[0].groundingMetadata.groundingChunks];
+
+
+  }
+
 
 
 
   memori.push({ role: 'user', parts: [{ text: promt }] });
 
 
-  return response.text;
+  return [response.text];
+
+  }
+  catch (error) {
+    console.error('Error al procesar el mensaje:', error);
+    return ['Lo siento, ocurrió un error al procesar tu solicitud.'];
+  }
+
+
+
+  
+
+  
 
   // memori.push({ role: 'user', parts: [{ text: promt }] });
   

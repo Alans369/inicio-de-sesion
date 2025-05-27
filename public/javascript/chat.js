@@ -7,7 +7,16 @@
         data: { message: mensaje },
         success: function(response) {
             console.log('Respuesta del servidor:', response);
-            addMessage('ai', response);
+            if (response.length == 2) {
+                addMessage('ai', response[0],response);
+                console.log(response[1])
+            }else{
+                addMessage('ai', response[0],[]);
+              
+                
+            }
+
+                
         },
         error: function(xhr, status, error) {
             console.error('Error en la solicitud AJAX:', error);
@@ -35,28 +44,39 @@
         const message = $input.val().trim();
 
         if (message) {
-            addMessage('user', message);
+            addMessage('user', message,[]);
             console.log("Mensaje que el usuario escribió:", message);
             $input.val('');
             enviarmensaje(message);
 
-            // addMessage('ai', `<a href="https://www.ejemplo.com"
-            //     style="text-decoration: none; color: blue;">
-            //         Pasa el ratón aquí (usando JavaScript)
-            //     </a>`);
-                        }
        }
+    }
 
-    function addMessage(type, content) {
+
+    function addMessage(type, message,content) {
         const $messagesContainer = $('#chatMessages');
         const $messageDiv = $('<div>').addClass(`message ${type}`);
 
+        if(content.length > 1){
+                $messageDiv.append(content[0]);
+
+                $messageDiv.append(`<br><br><br><h3>Sources:</h3><br><br>`);
+                 $.each(content[1], function(index, item) {
+                const url = item.web.uri;
+                const title = item.web.title;
+
+                $messageDiv.append(`<a href="${url}"
+                    style="text-decoration: none; color: blue;">
+                        ${title}
+                    </a><br><br>`);
+            });
+                
+            }else{
+                $messageDiv.append(message);
+            }
+
         // Si el contenido es HTML (como un enlace), usar .html(), si no, usar .text()
-        if (content.startsWith('<a')) {
-            $messageDiv.append(content);
-        } else {
-            $messageDiv.append(content);
-        }
+        
 
         $messagesContainer.append($messageDiv);
         $messagesContainer.scrollTop($messagesContainer[0].scrollHeight);
