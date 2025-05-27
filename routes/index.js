@@ -17,9 +17,10 @@ router.get('/chat',(req,res)=>{
 });
 
 router.get('/chat2',async (req,res)=>{
-    var response =await  ia.procesarMensaje(req.query.mensaje)
+    var response =await  ia.procesarMensaje(req.query.message)
+    console.log(req.query.message)
 
-    res.send(response)
+    res.send(response);
 });
 
 

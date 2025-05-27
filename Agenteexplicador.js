@@ -37,6 +37,9 @@ async function main(promt) {
 
   memori.push({ role: 'user', parts: [{ text: promt }] });
 
+
+  return response.text;
+
   // memori.push({ role: 'user', parts: [{ text: promt }] });
   
 
@@ -77,28 +80,28 @@ async function main(promt) {
   
 }
 
-process.stdin.setEncoding('utf8');
+// process.stdin.setEncoding('utf8');
 
-process.stdin.on('readable', () => {
-  let chunk;
-  while ((chunk = process.stdin.read()) !== null) {
+// process.stdin.on('readable', () => {
+//   let chunk;
+//   while ((chunk = process.stdin.read()) !== null) {
 
-     if (chunk.trim() === 'exit') { // Si el usuario escribe 'exit'
-       process.exit(); // Cierra el proceso
-    }
+//      if (chunk.trim() === 'exit') { // Si el usuario escribe 'exit'
+//        process.exit(); // Cierra el proceso
+//     }
 
-    // Aquí procesas el dato recibido
-     main(chunk); // Llama a la función con el dato recibido
+//     // Aquí procesas el dato recibido
+//      main(chunk); // Llama a la función con el dato recibido
  
 
-    // **Para terminar la entrada (importante), podrías agregar una condición:**
+//     // **Para terminar la entrada (importante), podrías agregar una condición:**
    
-  }
-});
+//   }
+// });
 
-process.stdin.on('end', () => {
-  process.stdout.write('end');
-});
+// process.stdin.on('end', () => {
+//   process.stdout.write('end');
+// });
 
 module.exports.chat = main;
 
