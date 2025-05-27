@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/index')
+const {formatter}=require('../pruebas')
 
 const{ia}=require('../main')
 
@@ -21,6 +22,18 @@ router.get('/chat2',async (req,res)=>{
     console.log(req.query.message)
 
     res.send(response);
+});
+
+router.get('/marquetar',async (req,res)=>{
+
+    var marqueta = await formatter(req.query.message)
+    console.log(marqueta)
+
+    res.send(marqueta);
+        
+  
+
+   
 });
 
 

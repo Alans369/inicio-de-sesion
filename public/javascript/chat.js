@@ -1,30 +1,63 @@
 
+function marquetars(mensaje) {
+    return $.ajax({
+        url: '/marquetar',
+        type: 'GET',
+        data: { message: mensaje }
+    });
+}
 
-    function enviarmensaje(mensaje){
-         $.ajax({
+function enviarmensaje(mensaje) {
+    $.ajax({
         url: '/chat2',
         type: 'GET',
         data: { message: mensaje },
         success: function(response) {
             console.log('Respuesta del servidor:', response);
             if (response.length == 2) {
-                addMessage('ai', response[0],response);
-                console.log(response[1])
-            }else{
-                addMessage('ai', response[0],[]);
-              
-                
+                marquetars(response[0]).then(function(mar) {
+                    addMessage('ai', mar, response);
+                    console.log(response[1]);
+                });
+            } else {
+                marquetars(response[0]).then(function(marqueta) {
+                    console.log(marqueta);
+                    addMessage('ai', marqueta, []);
+                });
             }
-
-                
         },
         error: function(xhr, status, error) {
             console.error('Error en la solicitud AJAX:', error);
             addMessage('ai', 'Lo siento, ha ocurrido un error al procesar tu mensaje.');
         }
     });
+}
 
-    }
+    // function enviarmensaje(mensaje){
+    //      $.ajax({
+    //     url: '/chat2',
+    //     type: 'GET',
+    //     data: { message: mensaje },
+    //     success: function(response) {
+    //         console.log('Respuesta del servidor:', response);
+    //         if (response.length == 2) {
+    //             addMessage('ai', response[0],response);
+    //             console.log(response[1])
+    //         }else{
+    //             addMessage('ai', response[0],[]);
+              
+                
+    //         }
+
+                
+    //     },
+    //     error: function(xhr, status, error) {
+    //         console.error('Error en la solicitud AJAX:', error);
+    //         addMessage('ai', 'Lo siento, ha ocurrido un error al procesar tu mensaje.');
+    //     }
+    // });
+
+    // }
     
     
 
@@ -58,7 +91,7 @@
         const $messageDiv = $('<div>').addClass(`message ${type}`);
 
         if(content.length > 1){
-                $messageDiv.append(content[0]);
+                $messageDiv.append(message);
 
                 $messageDiv.append(`<br><br><br><h3>Sources:</h3><br><br>`);
                  $.each(content[1], function(index, item) {
