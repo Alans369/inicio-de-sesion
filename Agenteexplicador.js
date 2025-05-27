@@ -27,36 +27,46 @@ async function main(promt) {
   const response = await chat.sendMessage({
     message: promt,
   });
+
+
+  
+
+  console.log(response.text);
+
+
+
   memori.push({ role: 'user', parts: [{ text: promt }] });
+
+  // memori.push({ role: 'user', parts: [{ text: promt }] });
   
 
 
 
-   if (response.candidates[0].groundingMetadata.groundingSupports !== undefined) {
-    console.log(response.text);
-    // console.log(concatenar(response.candidates[0].groundingMetadata.groundingSupports))
+  //  if (response.candidates[0].groundingMetadata.groundingSupports !== undefined) {
+  //   console.log(response.text);
+  //   // console.log(concatenar(response.candidates[0].groundingMetadata.groundingSupports))
 
-    var texto = {texto: response.text }
+  //   var texto = {texto: response.text }
 
-    console.log('sources')
+  //   console.log('sources')
 
-    var contexto = formatsources(response.candidates[0].groundingMetadata.groundingChunks)
+  //   var contexto = formatsources(response.candidates[0].groundingMetadata.groundingChunks)
 
-    console.log(contexto)
+  //   console.log(contexto)
 
-    contexto.unshift(texto)
+  //   contexto.unshift(texto)
 
-    memori.push({ role: 'model', parts: [{ text: contexto }] });
+  //   memori.push({ role: 'model', parts: [{ text: contexto }] });
 
-    return contexto  
+  //   // return contexto  
 
-   }else {
-     console.log(response.text);
+  //  }else {
+  //    console.log(response.text);
 
-     return response.text;
+  //   //  return response.text;
 
 
-   }
+  //  }
 
   //  console.log(memori)
 
@@ -66,6 +76,29 @@ async function main(promt) {
   // To get grounding metadata as web content.
   
 }
+
+process.stdin.setEncoding('utf8');
+
+process.stdin.on('readable', () => {
+  let chunk;
+  while ((chunk = process.stdin.read()) !== null) {
+
+     if (chunk.trim() === 'exit') { // Si el usuario escribe 'exit'
+       process.exit(); // Cierra el proceso
+    }
+
+    // Aquí procesas el dato recibido
+     main(chunk); // Llama a la función con el dato recibido
+ 
+
+    // **Para terminar la entrada (importante), podrías agregar una condición:**
+   
+  }
+});
+
+process.stdin.on('end', () => {
+  process.stdout.write('end');
+});
 
 module.exports.chat = main;
 

@@ -273,36 +273,80 @@
 // });
 
 
-function source(sources){
-  sources.forEach((source, index) => {
+const { GoogleGenAI} =require('@google/genai');
+
+async function main(promt) {
+  const ai = new GoogleGenAI({
+    apiKey: "AIzaSyDHIVg7RzPbHY4s0YYzvb4yswT8nStYg38",
+  });
+  const tools = [
+    { googleSearch: {} },
+  ];
+  const config = {
+    tools,
+    temperature: 1,
+    topP: 0.95,
+    topK: 40,
+    maxOutputTokens: 8192,
+    responseMimeType: 'text/plain',
+  };
+  const model = 'gemini-2.0-flash';
+  const memori = [
+    {
+      role: 'user',
+      parts: [
+        {
+          text: `hola como estas
+`,
+        },
+      ],
+    },
+   
+
+  ];
+
+
+
+
+  const response = await ai.models.generateContent({
+    model,
+    config,
+    contents:{
+    role: 'user',
+    parts: [
+      {
+        text: promt,
+      },
+    ],
+  },
+  });
+  
+ 
   
 
-  return `${index + 1}. ${source.web.title}`;
-});
+  console.log(response.text);
 }
 
 
-// ===== FUNCIÓN PARA FORMATO: TEXTO + [ÍNDICES] POR CADA SEGMENTO =====
-function concatenarSegmentos(segmentosArray) {
-  return segmentosArray.map(segmento => {
-    const textoSegmento = segmento.segment.text;
-    const indices = segmento.groundingChunkIndices.join(', ');
+process.stdin.setEncoding('utf8');
 
-    var list = indices.split(',').map(Number);
+process.stdin.on('readable', () => {
+  let chunk;
+  while ((chunk = process.stdin.read()) !== null) {
 
-    for (let i = 0; i < list.length; i++) {
-
-      list[i] = list[i]+ 1;
-     
+     if (chunk.trim() === 'exit') { // Si el usuario escribe 'exit'
+       process.exit(); // Cierra el proceso
     }
-    
 
-    return `${textoSegmento} [${list}]`;
-  }).join('\n');
-}
+    // Aquí procesas el dato recibido
+     main(chunk); // Llama a la función con el dato recibido
+ 
 
-// ===== EJECUTAR LA FUNCIÓN =====
-const resultado = concatenarSegmentos(segments);
+    // **Para terminar la entrada (importante), podrías agregar una condición:**
+   
+  }
+});
 
-console.log(resultado)
-
+process.stdin.on('end', () => {
+  process.stdout.write('end');
+})
