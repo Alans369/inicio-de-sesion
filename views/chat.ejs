@@ -73,6 +73,97 @@
 <script src="/javascript/chat.js"></script>
 
     <!-- Scripts quitalo si queres -->
+     <script>
+        $(document).ready(function(){
+            // Al hacer clic en la etiqueta p con id "toggle-fuentes"
+            $(document).on('click', '#toggle-fuentes', function() {
+                alert('hola')
+                // Alternar la visibilidad del div con id "fuentes-contenido"
+                $('#fuentes-contenido').slideToggle(); // Puedes usar .toggle() o .fadeToggle() también
+            });
+        });
+    </script>
+
+    <style>
+        #fuentes-contenido {
+            display: none; /* Inicialmente oculto */
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+        }
+        #toggle-fuentes {
+            cursor: pointer; /* Cambia el cursor para indicar que es clickeable */
+            color: blue;
+            text-decoration: underline;
+        }
+         .sources-outside {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 8px 0 18px 12px; /* margen izquierdo más pequeño para mayor alineación */
+            background: none;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            max-width: 90%;
+        }
+
+        .sources-outside strong {
+            display: none;
+        }
+
+        .sources-outside ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .sources-outside li {
+            background: #eaf1fb; /* Color de fondo similar al chat de la IA */
+            border: 1px solid #d0e2fa;
+            border-radius: 7px;
+            box-shadow: none;
+            padding: 4px 10px 4px 8px;
+            display: flex;
+            align-items: center;
+            font-size: 0.88em;
+            transition: box-shadow 0.2s, border 0.2s;
+            min-width: 0;
+        }
+
+        .sources-outside li:hover {
+            border: 1.5px solid #007bff;
+            background: #d6e8fc;
+        }
+
+        .sources-outside a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 4px;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 0.95em;
+        }
+
+        .sources-outside a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        .sources-outside li::before {
+            content: "🔗";
+            font-size: 0.95em;
+            margin-right: 3px;
+            opacity: 0.7;
+        }
+    </style>
 
     
 

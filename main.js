@@ -2,7 +2,7 @@ const {Inspector} = require('./inspectorAgent')
 const {chat,history} = require('./Agenteexplicador')
 const {AgenteTi}=require('./AgentCrearformulario')
 const {Agenteupdate}=require('./AgentCrearpreguntas')
-const Google = require('./controllers/client')
+// const Google = require('./controllers/client')
 require('dotenv').config();
 
 

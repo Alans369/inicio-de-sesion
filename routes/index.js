@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/index')
+// const controller = require('../controllers/index')
 const {formatter}=require('../pruebas')
 
 const{ia}=require('../main')
@@ -42,15 +42,15 @@ router.get('/form',(req,res)=>{
 });
 
 
-router.get('/subir-archivo',controller.index3);
+// router.get('/subir-archivo',controller.index3);
 
 
 
-router.get('/google',controller.index4);
+// router.get('/google',controller.index4);
 
 
 
 
-router.get('/oauth2callback',controller.index5);
+// router.get('/oauth2callback',controller.index5);
 
 module.exports = router;

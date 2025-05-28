@@ -92,17 +92,35 @@ function enviarmensaje(mensaje) {
 
         if(content.length > 1){
                 $messageDiv.append(message);
+                
+                var $li =''
 
-                $messageDiv.append(`<br><br><br><h3>Sources:</h3><br><br>`);
                  $.each(content[1], function(index, item) {
                 const url = item.web.uri;
                 const title = item.web.title;
 
-                $messageDiv.append(`<a href="${url}"
-                    style="text-decoration: none; color: blue;">
-                        ${title}
-                    </a><br><br>`);
+                $li+=`<li><a href="${url}" target="_blank">${title}</a></li>`;
+
             });
+            const $cotentfuentes = `
+             <br><br><br><strong id = "toggle-fuentes" >Fuentes de investigación:</strong>
+
+                     <div id="fuentes-contenido" class="sources-outside">
+                        <ul id="links" >
+                        ${$li}
+                       
+
+                       
+                    </ul>
+
+                     </div>
+                
+                </div>
+
+        `
+        $messageDiv.append($cotentfuentes);
+
+            console.log($cotentfuentes)
                 
             }else{
                 $messageDiv.append(message);
