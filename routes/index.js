@@ -59,10 +59,8 @@ router.get('/oauth2callback',async (req,res)=>{
      const { code } = req.query;
 
      try {
-        
-        var token = getToken(code)
+        await getToken(code,res)
 
-        res.cookie('Token', token);
         res.redirect('/chat')
      } catch (error) {
         res.send('error')

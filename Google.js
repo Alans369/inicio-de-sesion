@@ -24,13 +24,21 @@ function autenticacion(){
     return url
 }
 
-async function getToken(code){
-    const {tokens} = await oauth2Client.getToken(code)
-     oauth2Client.setCredentials(tokens);
+async function getToken(code,res){
 
-    console.log(tokens.access_token)
+    try {
+        const {tokens} = await oauth2Client.getToken(code)
+        oauth2Client.setCredentials(tokens);
+        res.cookie('Token',tokens.access_token);
+         console.log(tokens.access_token)
 
-    return tokens.access_token
+        return tokens.access_token
+        
+    } catch (error) {
+        return 'error'
+        
+    }
+    
 }
 
 
