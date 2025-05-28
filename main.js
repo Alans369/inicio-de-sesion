@@ -2,7 +2,7 @@ const {Inspector} = require('./inspectorAgent')
 const {chat,history} = require('./Agenteexplicador')
 const {AgenteTi}=require('./AgentCrearformulario')
 const {Agenteupdate}=require('./AgentCrearpreguntas')
-// const Google = require('./controllers/client')
+const {Createform }= require('./Google')
 require('dotenv').config();
 
 
@@ -16,7 +16,7 @@ class Main {
   }
 
 
-   async procesarMensaje(mensajeUsuario) {
+   async procesarMensaje(mensajeUsuario,token) {
     try {
       console.log('\n=== INICIANDO PROCESAMIENTO ===');
       console.log(`📨 Mensaje del usuario: "${mensajeUsuario}"`);
@@ -47,30 +47,32 @@ class Main {
 
         console.log(tit); 
 
-        const formulario = await Google.Createform(tit,token);
+        const formulario = await Createform(tit,token);
 
         console.log('�� Respuesta  del id formulario:',formulario[0]);
 
         history.push({ role: 'model', parts: [{text: `El formulario ${tit} lo e creado con exito y lo guarde en tu drive aca esta link para que le eches un vistaso  ${formulario[1]}`}] })
 
-
-        // PASO 3: Creación de preguntas al formulario
-        console.log('\n--- PASO 3: CREACIÓN DE PREGUNTAS AL FORMULARIO ---');
-
-        var body = await Agenteupdate(mensajeUsuario);
+        return ['claro ya cree el formualrio']
 
 
-        const Crearpreguntas = await Google.Createbodyform(token,body,formulario[0]);
+        // // PASO 3: Creación de preguntas al formulario
+        // console.log('\n--- PASO 3: CREACIÓN DE PREGUNTAS AL FORMULARIO ---');
 
-        if (Crearpreguntas) {
-          console.log('�� Preguntas creadas con éxito al formulario:', formulario[0]);
-          history.push({ role: 'model', parts: [{text: `Las preguntas al formulario ${tit} han sido creadas con éxito`}] })
+        // var body = await Agenteupdate(mensajeUsuario);
 
-          await chat(`respondeme con lo que te pedi`)
-        }
-        else {
-                  console.error('�� Error al crear las preguntas al formulario.');
-            } 
+
+        // const Crearpreguntas = await Google.Createbodyform(token,body,formulario[0]);
+
+        // if (Crearpreguntas) {
+        //   console.log('�� Preguntas creadas con éxito al formulario:', formulario[0]);
+        //   history.push({ role: 'model', parts: [{text: `Las preguntas al formulario ${tit} han sido creadas con éxito`}] })
+
+        //   await chat(`respondeme con lo que te pedi`)
+        // }
+        // else {
+        //           console.error('�� Error al crear las preguntas al formulario.');
+        //     } 
 
 
 

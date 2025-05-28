@@ -23,6 +23,8 @@ Ejemplos de chat normal:
 si solo te dicen que le crees un formulario sin mas detalles no es una solicitud valida de formulario
 por lo que devuelves false 
 
+si la palabra incluye crear formulario devuelves true pero en minuscula 
+
 
 no deberas proporcionar ninguna infromacion adicional solo true o false`
 
