@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const controller = require('../controllers/index')
+const {autenticacion,getToken} = require('../Google')
 const {formatter}=require('../pruebas')
 
 const{ia}=require('../main')
@@ -46,11 +46,29 @@ router.get('/form',(req,res)=>{
 
 
 
-// router.get('/google',controller.index4);
+router.get('/google',(req,res)=>{
+    
+    res.redirect(autenticacion())
+
+});
 
 
 
 
-// router.get('/oauth2callback',controller.index5);
+router.get('/oauth2callback',async (req,res)=>{
+     const { code } = req.query;
+
+     try {
+        
+        var token = getToken(code)
+
+        res.cookie('Token', token);
+        res.redirect('/chat')
+     } catch (error) {
+        res.send('error')
+        
+     }
+
+});
 
 module.exports = router;
