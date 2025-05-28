@@ -41,7 +41,7 @@ Produce JSON matching this specification:
                   { value: 'París' }, // Esta es la opción correcta
                   { value: 'Roma' },
                 ],
-                shuffle: false, // No mezclar el orden de las opciones
+               
               },
               grading: {
                 pointValue: 10, // Esta pregunta vale 10 puntos

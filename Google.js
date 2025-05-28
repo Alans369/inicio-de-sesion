@@ -63,7 +63,7 @@ async function createForm(titulo,token) {
       requestBody: {
         info: {
           title: 'Formulario Creado con Access Token',
-          documentTitle: 'Formulario Access Token',
+          documentTitle: titulo,
         },
       },
     });
@@ -80,8 +80,11 @@ async function createForm(titulo,token) {
 }
 
 
-async function Createbody(token,formId,requestBody){
-  auth.setCredentials({
+async function Createbody(token,formId,Body){
+  const auth = new google.auth.OAuth2();
+  console.log("Cuerpo de la solicitud que se enviará:", JSON.stringify(Body, null, 2));
+ try {
+   auth.setCredentials({
       access_token: token,
       // Si también tienes un refresh_token y quieres que la biblioteca maneje la renovación, inclúyelo:
       // refresh_token: 'TU_REFRESH_TOKEN_OBTENIDO',
@@ -89,13 +92,24 @@ async function Createbody(token,formId,requestBody){
     });
     const forms = google.forms({ version: 'v1', auth });
 
+     const update = {
+    requests: Body
+  };
+
 
     const res = await forms.forms.batchUpdate({
       formId: formId,
-      requestBody: requestBody,
+      requestBody: update,
     });
 
     console.log('Formulario actualizado con éxito:', res.data);
+    return true
+  
+ } catch (error) {
+
+  return error
+  
+ }
     // Puedes acceder al formulario actualizado a través de res.data.replies[0].updateFormInfo.form
     // o simplemente a res.data.form si includeFormInResponse es true
 

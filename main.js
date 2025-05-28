@@ -2,11 +2,11 @@ const {Inspector} = require('./inspectorAgent')
 const {chat,history} = require('./Agenteexplicador')
 const {AgenteTi}=require('./AgentCrearformulario')
 const {Agenteupdate}=require('./AgentCrearpreguntas')
-const {Createform }= require('./Google')
+const {Createform,Createbody}= require('./Google')
 require('dotenv').config();
 
 
-const token = process.env.Token;
+
 
 
 
@@ -62,13 +62,16 @@ class Main {
         var body = await Agenteupdate(mensajeUsuario);
 
 
-        const Crearpreguntas = await Google.Createbodyform(token,body,formulario[0]);
+        const Crearpreguntas = await Createbody(token,formulario[0],body);
+        console.log(Crearpreguntas)
 
         if (Crearpreguntas) {
           console.log('�� Preguntas creadas con éxito al formulario:', formulario[0]);
           history.push({ role: 'model', parts: [{text: `Las preguntas al formulario ${tit} han sido creadas con éxito`}] })
 
-          await chat(`respondeme con lo que te pedi`)
+          return ["formualrio creado con exito"]
+
+          
         }
         else {
                   console.error('�� Error al crear las preguntas al formulario.');
