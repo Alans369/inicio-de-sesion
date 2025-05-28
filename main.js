@@ -51,7 +51,7 @@ class Main {
 
         console.log('�� Respuesta  del id formulario:',formulario[0]);
 
-        history.push({ role: 'model', parts: [{text: `El formulario ${tit} lo e creado con exito y lo guarde en tu drive aca esta link para que le eches un vistaso  ${formulario[1]}`}] })
+        history.push({ role: 'model', parts: [{text: `El formulario ${tit} a sido creado  con exito y lo e guardado en el drive   link  ${formulario[1]}`}] })
 
         
 
@@ -69,7 +69,7 @@ class Main {
           console.log('�� Preguntas creadas con éxito al formulario:', formulario[0]);
           history.push({ role: 'model', parts: [{text: `Las preguntas al formulario ${tit} han sido creadas con éxito`}] })
 
-          return ["formualrio creado con exito"]
+          return chat('Explicame que preguntas creastes y me daras el link del formulario')
 
           
         }

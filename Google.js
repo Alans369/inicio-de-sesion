@@ -60,7 +60,7 @@ async function createForm(titulo,token) {
     const newForm = await forms.forms.create({
       requestBody: {
         info: {
-          title: 'Formulario Creado con Access Token',
+          title: titulo,
           documentTitle: titulo,
         },
       },

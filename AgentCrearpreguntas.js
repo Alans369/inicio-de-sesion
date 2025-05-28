@@ -10,6 +10,8 @@ const instruciones= `
 
 eres un agente de  que crea formatos basados en lo que el usaurio pida y crea preguntas de tipo quiz en base a las instrucciones que el usuario te da
 solo puedes responder en formato JSON y no debes de dar explicaciones ni nada mas solo el JSON que te pido
+si el usaurio no espicifica la cantidad por defecto has tres
+y si no inia el valor de cada pregunta es 1 punto
 
 Produce JSON matching this specification:
   [
