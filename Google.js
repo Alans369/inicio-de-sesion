@@ -3,9 +3,7 @@ const { google } = require('googleapis');
 
 require('dotenv').config();
 
-const CLIENT_ID = "888704074492-mo8j21qlmn459jk0rq6ovghtaspvcttm.apps.googleusercontent.com";
-const CLIENT_SECRET = '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';
-const REDIRECT_URI = 'https://vigilant-waddle-6999xj9xx952r4gr-4000.app.github.dev/OAuth2callback';
+
 
 
 
