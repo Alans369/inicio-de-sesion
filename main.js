@@ -53,26 +53,26 @@ class Main {
 
         history.push({ role: 'model', parts: [{text: `El formulario ${tit} lo e creado con exito y lo guarde en tu drive aca esta link para que le eches un vistaso  ${formulario[1]}`}] })
 
-        return ['claro ya cree el formualrio']
+        
 
 
-        // // PASO 3: Creación de preguntas al formulario
-        // console.log('\n--- PASO 3: CREACIÓN DE PREGUNTAS AL FORMULARIO ---');
+        // PASO 3: Creación de preguntas al formulario
+        console.log('\n--- PASO 3: CREACIÓN DE PREGUNTAS AL FORMULARIO ---');
 
-        // var body = await Agenteupdate(mensajeUsuario);
+        var body = await Agenteupdate(mensajeUsuario);
 
 
-        // const Crearpreguntas = await Google.Createbodyform(token,body,formulario[0]);
+        const Crearpreguntas = await Google.Createbodyform(token,body,formulario[0]);
 
-        // if (Crearpreguntas) {
-        //   console.log('�� Preguntas creadas con éxito al formulario:', formulario[0]);
-        //   history.push({ role: 'model', parts: [{text: `Las preguntas al formulario ${tit} han sido creadas con éxito`}] })
+        if (Crearpreguntas) {
+          console.log('�� Preguntas creadas con éxito al formulario:', formulario[0]);
+          history.push({ role: 'model', parts: [{text: `Las preguntas al formulario ${tit} han sido creadas con éxito`}] })
 
-        //   await chat(`respondeme con lo que te pedi`)
-        // }
-        // else {
-        //           console.error('�� Error al crear las preguntas al formulario.');
-        //     } 
+          await chat(`respondeme con lo que te pedi`)
+        }
+        else {
+                  console.error('�� Error al crear las preguntas al formulario.');
+            } 
 
 
 

@@ -3,6 +3,10 @@ const { google } = require('googleapis');
 
 require('dotenv').config();
 
+const CLIENT_ID = "888704074492-mo8j21qlmn459jk0rq6ovghtaspvcttm.apps.googleusercontent.com";
+const CLIENT_SECRET = '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';
+const REDIRECT_URI = 'https://vigilant-waddle-6999xj9xx952r4gr-4000.app.github.dev/OAuth2callback';
+
 
 
 
@@ -76,8 +80,33 @@ async function createForm(titulo,token) {
 }
 
 
+async function Createbody(token,formId,requestBody){
+  auth.setCredentials({
+      access_token: token,
+      // Si también tienes un refresh_token y quieres que la biblioteca maneje la renovación, inclúyelo:
+      // refresh_token: 'TU_REFRESH_TOKEN_OBTENIDO',
+      // expiry_date: EXPIRATION_TIMESTAMP, // Opcional: timestamp de expiración del access token
+    });
+    const forms = google.forms({ version: 'v1', auth });
+
+
+    const res = await forms.forms.batchUpdate({
+      formId: formId,
+      requestBody: requestBody,
+    });
+
+    console.log('Formulario actualizado con éxito:', res.data);
+    // Puedes acceder al formulario actualizado a través de res.data.replies[0].updateFormInfo.form
+    // o simplemente a res.data.form si includeFormInResponse es true
+
+
+}
+
+
 module.exports.autenticacion=autenticacion;
 
 module.exports.getToken=getToken;
 
 module.exports.Createform=createForm;
+
+module.exports.Createbody=Createbody;
