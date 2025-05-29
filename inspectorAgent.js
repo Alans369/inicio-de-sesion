@@ -13,6 +13,7 @@ Ejemplos de solicitudes de formulario:
 - "Crea un formulario sobre matemáticas basicas"
 - "Necesito un formulario de encuesta de satisfacción con 10 preguntas"
 - "Haz un formulario de registro con campos obligatorios: nombre, email"
+tu ceame el fomulario de tipo encuesta para elegir yo quien ganara
 
 Ejemplos de chat normal:
 - "Hola, ¿cómo estás?"

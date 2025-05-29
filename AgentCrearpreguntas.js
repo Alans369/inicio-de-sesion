@@ -1,5 +1,6 @@
 
 const {GoogleGenAI} = require('@google/genai');
+const {history}=require('./Agenteexplicador')
 
 const {context}=require('./AgenteformExlicar')
 
@@ -13,6 +14,13 @@ solo puedes responder en formato JSON y no debes de dar explicaciones ni nada ma
 si el usaurio no espicifica la cantidad por defecto has tres
 y si no inia el valor de cada pregunta es 1 punto
 
+deberas de prestar atencion al contexto ya que aveces el usaurio pedira crear formualros en base asu conversacion 
+revisaras en tu memoria que es lo que quiere
+pero solo responderas con el formtao que te comparto solo eso sin explicacion y nada mas por que si no te despedire
+
+  si no es un cuestionario  quitale este     updateMask: 'quizSettings.isQuiz', 
+    
+
 Produce JSON matching this specification:
   [
   {
@@ -21,7 +29,7 @@ Produce JSON matching this specification:
           quizSettings: {
             isQuiz: true,
           },
-        },
+        }, 
         updateMask: 'quizSettings.isQuiz', 
       },
     },
@@ -103,16 +111,33 @@ Produce JSON matching this specification:
 
 async function main(promt) {
   try {
-    const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
-    contents: promt,
-    responseMimeType: 'text/plain',
-    config: {
-      systemInstruction:instruciones,
-    },
-  });
+     const chat = await ai.chats.create({
+        model: "gemini-2.0-flash",
+        history: history,
+        responseMimeType: 'text/plain',
+        config: {
+          tools: [{googleSearch: {}}],
+          systemInstruction:instruciones,
+        },
+      });
+    
+      const response = await chat.sendMessage({
+        message: promt,
+      });
 
-    await context(response.text);
+       
+  //   const response = await ai.models.generateContent({
+  //   model: "gemini-2.0-flash",
+  //   contents: promt,
+  //   responseMimeType: 'text/plain',
+  //   config: {
+  //     systemInstruction:instruciones,
+  //   },
+  // });
+
+  //   await context(response.text);
+
+   history.push({ role: 'model', parts: [{text: `${response.text}`}] })
 
     var respuesta = response.text.replace(/^```(?:json)?\s*|\s*```$/g, '');
 

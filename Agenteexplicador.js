@@ -18,7 +18,7 @@ var memori = [
 async function main(promt) {
 
   try{
-      const chat = await ai.chats.create({
+    const chat = await ai.chats.create({
     model: "gemini-2.0-flash",
     history: memori,
     config: {
@@ -34,8 +34,9 @@ async function main(promt) {
 
   if (response.candidates[0].groundingMetadata.groundingChunks!== undefined) {
     
-   
+        memori.push({ role: 'user', parts: [{ text: response.text }] });
       return [response.text,response.candidates[0].groundingMetadata.groundingChunks];
+
 
 
   }
@@ -44,6 +45,8 @@ async function main(promt) {
 
 
   memori.push({ role: 'user', parts: [{ text: promt }] });
+
+
 
 
   return [response.text];
