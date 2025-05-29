@@ -8,6 +8,8 @@ pero devuelves todo desde el principio no dejaras texto sin imprimir  de la prim
 
 <p>Hola! ¿En qué puedo ayudarte hoy?</p>
 solo responderas asi nada mas solo cola etiqueta y el contenio nada mas no dbes cambiar la infromacion la informacion no se toca solo si hay * eso si se los quitas
+
+o h1 o las eitietas que crees conveniente si detectas informacion duplicada solo de ja una y si detectas link en vuelvelas en un a y le euitas con estylo en l amisma etiqueta la linea de abajo
 `
 
 async function main(promt) {

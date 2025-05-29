@@ -19,6 +19,10 @@ revisaras en tu memoria que es lo que quiere
 pero solo responderas con el formtao que te comparto solo eso sin explicacion y nada mas por que si no te despedire
 
   si no es un cuestionario  quitale este     updateMask: 'quizSettings.isQuiz', 
+
+  por ejemplo 
+
+  si trae la pala bra enccuesta "isQuiz: false" updateMask: 'quizSettings.isQuiz' y no iria esto
     
 
 Produce JSON matching this specification:
